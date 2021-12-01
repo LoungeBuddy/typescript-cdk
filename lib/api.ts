@@ -18,6 +18,9 @@ class DocumentManagementAP extends cdk.Construct {
             runtime: Runtime.NODEJS_14_X,
             entry: path.join(__dirname, "..", "api", "getDocuments", "index.ts"),
             handler: "getDocuments",
+            environment: {
+                DOCUMENTS_BUCKET_NAME: props.documentBucket.bucketName
+            }
         });
 
         const bucketPermissions = new PolicyStatement();

@@ -1,6 +1,6 @@
 // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
 
-import * as s3 from "aws-sdk/clients/s3";
+import s3 from "aws-sdk/clients/s3";
 /*import { httpsAgent } from "shop-backend-core-http-agent-utils";
 import { secretReader } from "shop-backend-core-epaas-secret-reader";
 

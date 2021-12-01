@@ -5,7 +5,7 @@ import {
   GetObjectOutput,
   DeleteObjectOutput,
 } from "aws-sdk/clients/s3";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { Readable } from "stream";
 import client from "./client";
 

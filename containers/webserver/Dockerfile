@@ -1,6 +1,6 @@
 # Building container
 FROM node:14 as build
-WORKDIR /use/src/app
+WORKDIR /usr/src/app
 COPY . .
 RUN npm install
 RUN npm run build

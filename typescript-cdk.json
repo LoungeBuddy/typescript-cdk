@@ -1,0 +1,1387 @@
+{
+  "Resources": {
+    "EncryptedBucket6730B3DC": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/EncryptedBucket/Resource"
+      }
+    },
+    "EncryptedBucket46DD4932": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "aws:kms"
+              }
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/EncryptedBucket/EncryptedBucket/Resource"
+      }
+    },
+    "DocumentsDeploymentAwsCliLayer1230A2FB": {
+      "Type": "AWS::Lambda::LayerVersion",
+      "Properties": {
+        "Content": {
+          "S3Bucket": {
+            "Ref": "AssetParameterse9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68S3BucketAEADE8C7"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameterse9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68S3VersionKeyE415415F"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParameterse9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68S3VersionKeyE415415F"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Description": "/opt/awscli/aws"
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentsDeployment/AwsCliLayer/Resource",
+        "aws:asset:path": "asset.e9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68.zip",
+        "aws:asset:property": "Content"
+      }
+    },
+    "DocumentsDeploymentCustomResource25E0B1AD": {
+      "Type": "Custom::CDKBucketDeployment",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB6723FB92",
+            "Arn"
+          ]
+        },
+        "SourceBucketNames": [
+          {
+            "Ref": "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3BucketBDC92A6C"
+          }
+        ],
+        "SourceObjectKeys": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3VersionKeyA4E2AAF3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3VersionKeyA4E2AAF3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        ],
+        "DestinationBucketName": {
+          "Ref": "EncryptedBucket6730B3DC"
+        },
+        "Prune": true
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentsDeployment/CustomResource/Default"
+      }
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleBA21DBC1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/ServiceRole/Resource"
+      }
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleDefaultPolicy96C3E726": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3BucketBDC92A6C"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3BucketBDC92A6C"
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "EncryptedBucket6730B3DC",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "EncryptedBucket6730B3DC",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleDefaultPolicy96C3E726",
+        "Roles": [
+          {
+            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleBA21DBC1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB6723FB92": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "AssetParametersa3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8S3BucketD1AD544E"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParametersa3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8S3VersionKey93A19D70"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParametersa3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8S3VersionKey93A19D70"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleBA21DBC1",
+            "Arn"
+          ]
+        },
+        "Handler": "index.handler",
+        "Layers": [
+          {
+            "Ref": "DocumentsDeploymentAwsCliLayer1230A2FB"
+          }
+        ],
+        "MemorySize": 512,
+        "Runtime": "python3.7",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          }
+        ],
+        "Timeout": 900
+      },
+      "DependsOn": [
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleDefaultPolicy96C3E726",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiBServiceRoleBA21DBC1"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C512MiB/Resource",
+        "aws:asset:path": "asset.a3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8",
+        "aws:asset:property": "Code"
+      }
+    },
+    "NetworkingConstruct1BEEB40A": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/Resource"
+      }
+    },
+    "NetworkingConstructPublicSubnet1Subnet36B717DF": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/24",
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1/Subnet"
+      }
+    },
+    "NetworkingConstructPublicSubnet1RouteTableFA1142F4": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1/RouteTable"
+      }
+    },
+    "NetworkingConstructPublicSubnet1RouteTableAssociationDC5B65E4": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPublicSubnet1RouteTableFA1142F4"
+        },
+        "SubnetId": {
+          "Ref": "NetworkingConstructPublicSubnet1Subnet36B717DF"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1/RouteTableAssociation"
+      }
+    },
+    "NetworkingConstructPublicSubnet1DefaultRoute81DC539C": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPublicSubnet1RouteTableFA1142F4"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "NetworkingConstructIGW5214B292"
+        }
+      },
+      "DependsOn": [
+        "NetworkingConstructVPCGW4C4E3BC7"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1/DefaultRoute"
+      }
+    },
+    "NetworkingConstructPublicSubnet1EIP1676A0F6": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1/EIP"
+      }
+    },
+    "NetworkingConstructPublicSubnet1NATGatewayF3BB618C": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "NetworkingConstructPublicSubnet1Subnet36B717DF"
+        },
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "NetworkingConstructPublicSubnet1EIP1676A0F6",
+            "AllocationId"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet1/NATGateway"
+      }
+    },
+    "NetworkingConstructPublicSubnet2Subnet83F6C69A": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.1.0/24",
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2/Subnet"
+      }
+    },
+    "NetworkingConstructPublicSubnet2RouteTable43E7B915": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2/RouteTable"
+      }
+    },
+    "NetworkingConstructPublicSubnet2RouteTableAssociation92BEACD3": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPublicSubnet2RouteTable43E7B915"
+        },
+        "SubnetId": {
+          "Ref": "NetworkingConstructPublicSubnet2Subnet83F6C69A"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2/RouteTableAssociation"
+      }
+    },
+    "NetworkingConstructPublicSubnet2DefaultRoute0090D416": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPublicSubnet2RouteTable43E7B915"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "NetworkingConstructIGW5214B292"
+        }
+      },
+      "DependsOn": [
+        "NetworkingConstructVPCGW4C4E3BC7"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2/DefaultRoute"
+      }
+    },
+    "NetworkingConstructPublicSubnet2EIP26AF2ABA": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2/EIP"
+      }
+    },
+    "NetworkingConstructPublicSubnet2NATGateway51DDD3F4": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "SubnetId": {
+          "Ref": "NetworkingConstructPublicSubnet2Subnet83F6C69A"
+        },
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "NetworkingConstructPublicSubnet2EIP26AF2ABA",
+            "AllocationId"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PublicSubnet2/NATGateway"
+      }
+    },
+    "NetworkingConstructPrivateSubnet1SubnetD8B15A99": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.2.0/24",
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet1/Subnet"
+      }
+    },
+    "NetworkingConstructPrivateSubnet1RouteTable7510F333": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet1/RouteTable"
+      }
+    },
+    "NetworkingConstructPrivateSubnet1RouteTableAssociation08BE28A4": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPrivateSubnet1RouteTable7510F333"
+        },
+        "SubnetId": {
+          "Ref": "NetworkingConstructPrivateSubnet1SubnetD8B15A99"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet1/RouteTableAssociation"
+      }
+    },
+    "NetworkingConstructPrivateSubnet1DefaultRouteC7B718A4": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPrivateSubnet1RouteTable7510F333"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "NetworkingConstructPublicSubnet1NATGatewayF3BB618C"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet1/DefaultRoute"
+      }
+    },
+    "NetworkingConstructPrivateSubnet2Subnet4B632D64": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.3.0/24",
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet2/Subnet"
+      }
+    },
+    "NetworkingConstructPrivateSubnet2RouteTable66EED5EA": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet2/RouteTable"
+      }
+    },
+    "NetworkingConstructPrivateSubnet2RouteTableAssociation8B1F40EA": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPrivateSubnet2RouteTable66EED5EA"
+        },
+        "SubnetId": {
+          "Ref": "NetworkingConstructPrivateSubnet2Subnet4B632D64"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet2/RouteTableAssociation"
+      }
+    },
+    "NetworkingConstructPrivateSubnet2DefaultRoute3E85DB77": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "NetworkingConstructPrivateSubnet2RouteTable66EED5EA"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "NetworkingConstructPublicSubnet2NATGateway51DDD3F4"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/PrivateSubnet2/DefaultRoute"
+      }
+    },
+    "NetworkingConstructIGW5214B292": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "Networking"
+          },
+          {
+            "Key": "Name",
+            "Value": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/IGW"
+      }
+    },
+    "NetworkingConstructVPCGW4C4E3BC7": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "NetworkingConstruct1BEEB40A"
+        },
+        "InternetGatewayId": {
+          "Ref": "NetworkingConstructIGW5214B292"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/NetworkingConstruct/NetworkingConstruct/VPCGW"
+      }
+    },
+    "DocumentManagementAPIGetDocumentsFunctionServiceRole9B86E80E": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "API"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/GetDocumentsFunction/ServiceRole/Resource"
+      }
+    },
+    "DocumentManagementAPIGetDocumentsFunctionServiceRoleDefaultPolicy789353EE": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "EncryptedBucket6730B3DC",
+                        "Arn"
+                      ]
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "s3:ListBucket",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "EncryptedBucket6730B3DC",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "DocumentManagementAPIGetDocumentsFunctionServiceRoleDefaultPolicy789353EE",
+        "Roles": [
+          {
+            "Ref": "DocumentManagementAPIGetDocumentsFunctionServiceRole9B86E80E"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/GetDocumentsFunction/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "DocumentManagementAPIGetDocumentsFunction877B91B7": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "AssetParametersbc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aacS3Bucket94C314C6"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParametersbc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aacS3VersionKey47ADEABC"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "AssetParametersbc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aacS3VersionKey47ADEABC"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "DocumentManagementAPIGetDocumentsFunctionServiceRole9B86E80E",
+            "Arn"
+          ]
+        },
+        "Environment": {
+          "Variables": {
+            "DOCUMENTS_BUCKET_NAME": {
+              "Ref": "EncryptedBucket6730B3DC"
+            },
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+          }
+        },
+        "Handler": "index.getDocuments",
+        "Runtime": "nodejs14.x",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "DocumentManagement"
+          },
+          {
+            "Key": "Environment",
+            "Value": "Development"
+          },
+          {
+            "Key": "Module",
+            "Value": "API"
+          }
+        ]
+      },
+      "DependsOn": [
+        "DocumentManagementAPIGetDocumentsFunctionServiceRoleDefaultPolicy789353EE",
+        "DocumentManagementAPIGetDocumentsFunctionServiceRole9B86E80E"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/GetDocumentsFunction/Resource",
+        "aws:asset:path": "asset.bc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aac",
+        "aws:asset:property": "Code"
+      }
+    },
+    "DocumentManagementAPIHttpApi05512C20": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "CorsConfiguration": {
+          "AllowMethods": [
+            "GET"
+          ],
+          "AllowOrigins": [
+            "*"
+          ],
+          "MaxAge": 864000
+        },
+        "Name": "document-management-api",
+        "ProtocolType": "HTTP",
+        "Tags": {
+          "App": "DocumentManagement",
+          "Environment": "Development",
+          "Module": "API"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/HttpApi/Resource"
+      }
+    },
+    "DocumentManagementAPIHttpApiDefaultStageB3BC8B11": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "DocumentManagementAPIHttpApi05512C20"
+        },
+        "StageName": "$default",
+        "AutoDeploy": true,
+        "Tags": {
+          "App": "DocumentManagement",
+          "Environment": "Development",
+          "Module": "API"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/HttpApi/DefaultStage/Resource"
+      }
+    },
+    "DocumentManagementAPIHttpApiANYgetdocumentsTypescriptCdkStackDocumentManagementAPIHttpApiANYgetdocumentsCF5281E8PermissionEF7D5F91": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "DocumentManagementAPIGetDocumentsFunction877B91B7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:us-east-1:",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "DocumentManagementAPIHttpApi05512C20"
+              },
+              "/*/*/get-documents"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/HttpApi/ANY--get-documents/TypescriptCdkStackDocumentManagementAPIHttpApiANYgetdocumentsCF5281E8-Permission"
+      }
+    },
+    "DocumentManagementAPIHttpApiANYgetdocumentsHttpIntegration83590885b0be8447618bb0d399e8050589847862": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "DocumentManagementAPIHttpApi05512C20"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "DocumentManagementAPIGetDocumentsFunction877B91B7",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/HttpApi/ANY--get-documents/HttpIntegration-83590885b0be8447618bb0d399e80505/Resource"
+      }
+    },
+    "DocumentManagementAPIHttpApiANYgetdocumentsFA98B2FA": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "DocumentManagementAPIHttpApi05512C20"
+        },
+        "RouteKey": "ANY /get-documents",
+        "AuthorizationType": "NONE",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "DocumentManagementAPIHttpApiANYgetdocumentsHttpIntegration83590885b0be8447618bb0d399e8050589847862"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/DocumentManagementAPI/HttpApi/ANY--get-documents/Resource"
+      }
+    },
+    "CDKMetadata": {
+      "Type": "AWS::CDK::Metadata",
+      "Properties": {
+        "Analytics": "v2:deflate64:H4sIAAAAAAAA/11Sy27CMBD8Fu6OIY3EuZC+kCoaQcXdmC01JHZkr0HIyr/XGxNAPc3s7MaeWSfnIS8mfDJ6FmeXyd1xHKSxwMMahTyy0miH1ktkM+cAo7hXes9K79A0K3DGWwms/NGPvBJWNIBgqfjy2HpkQ79jdE9wBQ9zL4+ANHNlCebCxSlXZGEHbW0uDWjkqfVyE5ggO473rjpWi2a7EzzEsz7FBewGrFNGs3U0WwMa/ea1RFJuJI4+8gpsoxx91DElGh5Wpk7BCCtTK3np53rWMZBPPGxaSdqmKlnlt7Gx9ludIt3ZyniEb7FNxyX9rsUARiox2OgbRF4XFcFS4LtAOIsLq6w6RXo/eKHjiiMfBpKTazXD+H6/tKphO5k2Ozg4vuxhyH7r1rS3LD6OrBWfnV1Zq36VHcuL4vH/IBSt2qd7TnENH4jtrFVkgIBK+lFS3p6QlKIRI+N7e8v8r+znuo6RXX5w41M+5VOejw5Oqcx6jaoBvkr4B5r7mHS+AgAA"
+      },
+      "Metadata": {
+        "aws:cdk:path": "TypescriptCdkStack/CDKMetadata/Default"
+      }
+    }
+  },
+  "Parameters": {
+    "AssetParameterse9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68S3BucketAEADE8C7": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"e9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68\""
+    },
+    "AssetParameterse9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68S3VersionKeyE415415F": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"e9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68\""
+    },
+    "AssetParameterse9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68ArtifactHashD9A515C3": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"e9882ab123687399f934da0d45effe675ecc8ce13b40cb946f3e1d6141fe8d68\""
+    },
+    "AssetParametersa3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8S3BucketD1AD544E": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"a3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8\""
+    },
+    "AssetParametersa3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8S3VersionKey93A19D70": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"a3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8\""
+    },
+    "AssetParametersa3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8ArtifactHash238275D6": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"a3058ccb468d757ebb89df5363a1c20f5307c6911136f29d00e1a68c9b2aa7e8\""
+    },
+    "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3BucketBDC92A6C": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"b2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ce\""
+    },
+    "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceS3VersionKeyA4E2AAF3": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"b2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ce\""
+    },
+    "AssetParametersb2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ceArtifactHash11F65DD3": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"b2b90ac3a581f916da564359208307409ffd8eb2caaac50a506841d41eb1b9ce\""
+    },
+    "AssetParametersbc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aacS3Bucket94C314C6": {
+      "Type": "String",
+      "Description": "S3 bucket for asset \"bc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aac\""
+    },
+    "AssetParametersbc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aacS3VersionKey47ADEABC": {
+      "Type": "String",
+      "Description": "S3 key for asset version \"bc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aac\""
+    },
+    "AssetParametersbc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aacArtifactHash271C9962": {
+      "Type": "String",
+      "Description": "Artifact hash for asset \"bc19e40e2c7920dbb960c31e1cd2552a24493a43167f66bf44c80c43a22c3aac\""
+    }
+  },
+  "Outputs": {
+    "DocumentsBucketNameExport": {
+      "Value": {
+        "Ref": "EncryptedBucket6730B3DC"
+      },
+      "Export": {
+        "Name": "DocumentsBucketName"
+      }
+    },
+    "DocumentManagementAPIAPIEndpointAAF843B7": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "DocumentManagementAPIHttpApi05512C20"
+            },
+            ".execute-api.us-east-1.",
+            {
+              "Ref": "AWS::URLSuffix"
+            },
+            "/"
+          ]
+        ]
+      },
+      "Export": {
+        "Name": "APIEndpoint"
+      }
+    }
+  }
+}

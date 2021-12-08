@@ -5,7 +5,9 @@
     "typescript-cdk": "bin/typescript-cdk.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run synth && npm run synth:json",
+    "synth": "cdk synth > typescript-cdk.yaml",
+    "synth:json": "cdk synth --json > typescript-cdk.json",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"
@@ -17,6 +19,7 @@
     "aws-cdk": "1.130.0",
     "jest": "^26.4.2",
     "parcel": "2.0.1",
+    "prettier": "^2.5.1",
     "ts-jest": "^26.2.0",
     "ts-node": "^9.0.0",
     "typescript": "~3.9.7"

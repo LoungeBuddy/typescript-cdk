@@ -3,6 +3,13 @@ import 'source-map-support/register';
 import * as cdk from '@aws-cdk/core';
 import TypescriptCdkStack, { Props } from '../lib/typescript-cdk-stack';
 
+/**
+ * CDK Application
+ * A CDK Application can contain one ot more stacks
+ * A stack has to exist within a single AWS environment
+ * meaning that it exists within a single AWS account and a corresponding region
+ */
+
 const app = new cdk.App();
 const Tags = cdk.Tags;
 

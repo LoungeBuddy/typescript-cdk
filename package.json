@@ -5,9 +5,8 @@
     "typescript-cdk": "bin/typescript-cdk.js"
   },
   "scripts": {
-    "build": "tsc && npm run synth && npm run synth:json",
-    "synth": "cdk synth > typescript-cdk.yaml",
-    "synth:json": "cdk synth --json > typescript-cdk.json",
+    "build": "tsc && npm run synth",
+    "synth": "cdk synth --output=./templates",
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk"

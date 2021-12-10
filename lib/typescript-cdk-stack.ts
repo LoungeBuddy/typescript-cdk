@@ -27,27 +27,27 @@ class TypescriptCdkStack extends cdk.Stack {
             bucketName = "EncryptedBucket"
         }
         const bucket:Bucket = new S3Bucket(this, bucketName, bucketOptions as BucketProps);
-  
-      new s3Deploy.BucketDeployment(this, 'DocumentsDeployment', {
-        sources: [s3Deploy.Source.asset(path.join(__dirname, "..", 'documents'))],
-        destinationBucket: bucket,
-        memoryLimit: 512
-      });
+
+        new s3Deploy.BucketDeployment(this, 'DocumentsDeployment', {
+            sources: [s3Deploy.Source.asset(path.join(__dirname, "..", 'documents'))],
+            destinationBucket: bucket,
+            memoryLimit: 512
+        });
 
         new cdk.CfnOutput(this, 'DocumentsBucketNameExport', {
-          value: bucket.bucketName,
-          exportName: 'DocumentsBucketName'
+            value: bucket.bucketName,
+            exportName: 'DocumentsBucketName'
         });
 
         // networking
-        const networkingStack = new Networking(this, 'NetworkingConstruct', props?.vpcProps);
-        cdk.Tags.of(networkingStack).add("Module", "Networking");
+        const networkingConstruct = new Networking(this, 'NetworkingConstruct', props?.vpcProps);
+        cdk.Tags.of(networkingConstruct).add("Module", "Networking");
 
-        // lambda-Nodejs
-        const api = new DocumentManagementAPI(this, 'DocumentManagementAPI', {
+        // API Construct - lambda-Nodejs
+        const apiConstruct = new DocumentManagementAPI(this, 'DocumentManagementAPI', {
             documentBucket: bucket
         });
-        cdk.Tags.of(api).add("Module", "API")
+        cdk.Tags.of(apiConstruct).add("Module", "API");
     }
 }
 

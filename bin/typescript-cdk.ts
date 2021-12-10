@@ -5,7 +5,8 @@ import TypescriptCdkStack, { Props } from '../lib/typescript-cdk-stack';
 
 /**
  * CDK Application
- * A CDK Application can contain one ot more stacks
+ * A CDK Application can contain one ot more stacks.
+ * A Stack is the smallest physical unit of deployment, and maps directly onto a CloudFormation Stack.
  * A stack has to exist within a single AWS environment
  * meaning that it exists within a single AWS account and a corresponding region
  */

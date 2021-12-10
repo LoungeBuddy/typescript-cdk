@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 test("Stack", () => {
   // Detect change
   expect(
-    JSON.parse(readFileSync(`${process.cwd()}/typescript-cdk.json`, "utf8"))
+    JSON.parse(readFileSync(`${process.cwd()}/templates/TypescriptCdkStack.template.json`, "utf8"))
   ).toMatchInlineSnapshot(`
     Object {
       "Outputs": Object {

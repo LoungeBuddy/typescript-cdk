@@ -1,0 +1,7 @@
+###############################################################################
+#
+# This is the LoungeBuddy CODEOWNERS file, the owners indicated will be part
+# of the PR review process for merging code
+#
+###############################################################################
+* @LoungeBuddy/services
